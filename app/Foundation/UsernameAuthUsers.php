@@ -19,7 +19,7 @@ trait UsernameAuthUsers
      */
     public function showLoginForm()
     {
-        return view('modules.auth.login_2');
+        return view('modules.auth.login_username');
     }
 
     /**

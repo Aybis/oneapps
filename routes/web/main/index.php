@@ -1,9 +1,17 @@
 <?php
-
 $router->group([
     'middleware' => 'auth',
-    'prefix'     => ''
+    // 'prefix'     => ''
 ], function () use ($router) {
+    Route::get('/', function () {
+        return view('modules.web.home.index');
+    });
 
+    include __DIR__.'/noc/index.php';
+    include __DIR__.'/user/index.php';
+    include __DIR__.'/listrik/index.php';
+    include __DIR__.'/menu/index.php';
+    include __DIR__.'/permission/index.php';
+    include __DIR__.'/menu/index.php';
 
 });

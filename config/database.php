@@ -63,6 +63,26 @@ return [
             ]) : [],
         ],
 
+        'mysql2' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL2'),
+            'host' => env('DB_HOST2', '10.15.179.91'),
+            'port' => env('DB_PORT2', '3306'),
+            'database' => env('DB_DATABASE2', 'report_nossa_db'),
+            'username' => env('DB_USERNAME2', 'fauzi.hanif'),
+            'password' => env('DB_PASSWORD2', 'P@55w0rd93'),
+            'unix_socket' => env('DB_SOCKET2', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

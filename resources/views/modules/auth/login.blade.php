@@ -61,7 +61,7 @@
                   <div class="login-form">
                     <div class="form-group">
                         <input name="username" type="text" class="form-control {{$errors->has('username') ? 'is-invalid' : '' }}" placeholder="Username" value="{{ old('username') }}" required autofocus>
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        <span class="form-control-feedback"></span>
 
                         @if ($errors->has('username'))
                         <span class="invalid-feedback" role="alert">
@@ -72,6 +72,8 @@
                     <div class="form-group">
                       <input id="password" type="password" name="pwldap" placeholder="Password" class="form-control">
                       <input name="password" type="hidden" value="gloryHorsePower">
+                      {{-- <input name="password" type="hidden" value="ijustmadeiteasyforyou"> --}}
+
 
                     </div>
                     <div class="form-group row login-tools" hidden>

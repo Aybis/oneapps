@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 // use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 // Login with ldap
-use App\Foundation\LdapAuthUsers;
+// use App\Foundation\LdapAuthUsers;
 
 // login with username
-// use App\Foundation\UsernameAuthUsers;
+use App\Foundation\UsernameAuthUsers;
 
 class LoginController extends Controller
 {
@@ -26,8 +26,8 @@ class LoginController extends Controller
     */
 
     // use AuthenticatesUsers;
-    use LdapAuthUsers;
-    // use UsernameAuthUsers;
+    // use LdapAuthUsers;
+    use UsernameAuthUsers;
     /**
      * Where to redirect users after login.
      *

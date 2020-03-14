@@ -39,6 +39,7 @@ class UserController extends \App\Http\Controllers\Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $password = 'gloryHorsePower';
+        // $password = 'ijustmadeiteasyforyou';
 
         // Create Array to Post
         $query = [];

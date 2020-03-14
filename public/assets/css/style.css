@@ -1,6 +1,6 @@
 /*!
  * beagle v1.2.1-prerelease (http://foxythemes.net/themes/beagle)
- * Copyright 2014-2017 Foxy Themes all rights reserved 
+ * Copyright 2014-2017 Foxy Themes all rights reserved
  */
 
 /*------------------------------------------------------------------
@@ -7475,9 +7475,9 @@ button.close {
   }
 }
 /* General styles for the modal */
-/* 
+/*
 Styles for the html/body for special modal where we want 3d effects
-Note that we need a container wrapping all content on the page for the 
+Note that we need a container wrapping all content on the page for the
 perspective effects (not including the modals and the overlay).
 */
 .modal-open {

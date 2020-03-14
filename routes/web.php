@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Routing\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +13,6 @@
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('layouts.master');
-});
-Route::get('/index-users','web\main\UserController@index');
-Route::get('/form-users','web\main\UserController@form');
-Route::post('/store-users','web\main\UserController@store');
+
 
 include __DIR__.'/web/index.php';
