@@ -12,9 +12,9 @@ Dashboard NOC
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <!-- Styles -->
 <style>
-    #chartmiss {
+    #chartReg {
         width: 100%;
-        height: 400px;
+        height: 360px;
     }
     #chartmet {
         width: 100%;
@@ -39,7 +39,8 @@ Dashboard NOC
         <select name="tahun" id="tahun" class="form-group" style="width:20%;height:34px">
 
         </select>
-        <input type="hidden" id="url_filter" url="/noc/data-chart/">
+        <input type="hidden" id="url_chart_met" url="/noc/data-chart/">
+        <input type="hidden" id="url_chart_reg" url="/noc/data-reg/">
     <input type="hidden" id="token" value="{{ csrf_token()}}">
     </div>
 </div>
@@ -67,28 +68,28 @@ Dashboard NOC
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-md-6 animated fadeInLeft" hidden>
+    <div class="col-xs-12 col-md-6 animated fadeInLeft">
         <div class="widget be-loading">
             <div class="widget-head">
                 <div class="tools"><span class="icon mdi mdi-chevron-down"></span><span
                         class="icon mdi mdi-refresh-sync toggle-loading"></span><span class="icon mdi mdi-close"></span>
                 </div>
-                <div class="title">Data By Segment
+                <div class="title">Data By Area
                     <div id="status" style="text-align:-webkit-center">
                         <div class="be-radio be-radio-color inline">
-                          <input type="radio" checked="" name="miss" id="rad9">
-                          <label for="rad9">Miss</label>
-                        </div>
-                        <div class="be-radio be-radio-color inline">
-                          <input type="radio" name="met" id="rad10">
-                          <label for="rad10">Met</label>
-                        </div>
+                            <input type="radio" checked="" name="rad4" id="rad9">
+                            <label for="rad9">MISS </label>
+                          </div>
+                          <div class="be-radio be-radio-color inline">
+                            <input type="radio" checked="" name="rad4" id="rad9">
+                            <label for="rad9">MET</label>
+                          </div>
                       </div>
                 </div>
 
             </div>
             <div class="widget-chart-container">
-                <div id="chartmiss">
+                <div id="chartReg">
 
                 </div>
             </div>
@@ -142,5 +143,5 @@ Dashboard NOC
 <script src="{{ asset('js/web/main/noc/dashboard.js')}}"></script>
 <script src="{{ asset('js/web/main/noc/filter.js')}}"></script>
 <script src="{{ asset('js/web/main/noc/chart_met.js')}}"></script>
-<script src="{{ asset('js/web/main/noc/chart_miss.js')}}"></script>
+<script src="{{ asset('js/web/main/noc/chart_reg.js')}}"></script>
 @endsection

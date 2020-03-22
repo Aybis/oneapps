@@ -1,4 +1,4 @@
-function chartMet(value) {
+function chartReg(value) {
 
     /* Chart code */
     // Themes begin
@@ -6,22 +6,14 @@ function chartMet(value) {
     // Themes end
 
     // Create chart MET
-    let chart = am4core.create("chartmet", am4charts.PieChart);
+    let chart = am4core.create("chartReg", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-    chart.data = [{
-            area: "MET",
-            value: value.met[0]['met'],
-        },
-        {
-            area: "MISS",
-            value: value.miss[0]['miss'],
-        },
-    ];
+    console.log(value);
+    chart.data = value;
 
     let series = chart.series.push(new am4charts.PieSeries());
-    series.dataFields.value = "value";
-    series.dataFields.radiusValue = "value";
+    series.dataFields.value = "total";
+    series.dataFields.radiusValue = "total";
     series.dataFields.category = "area";
     series.slices.template.cornerRadius = 10;
     series.colors.step = 5;

@@ -7,7 +7,8 @@ $(document).ready(function () {
 
 // Declare Variable
 let url_list = $('#dashboard').attr('url');
-let url_filter = $('#url_filter').attr('url');
+let url_filter = $('#url_chart_met').attr('url');
+let url_chart_reg = $('#url_chart_reg').attr('url');
 let _token = $('#token').val();
 let bulan = $('#bulan');
 let tahun = $('#tahun');
@@ -72,7 +73,7 @@ function listDataDashboard(m, y, _token) {
         async: true,
         ajax: {
             url: url_list,
-            type: 'post',
+            type: 'get',
             data: {
                 _token: _token,
                 month: m,

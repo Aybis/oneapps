@@ -62,6 +62,22 @@ class NocTicket extends Model
         ->get();
         return ['met'=>$met, 'miss'=>$miss];
     }
+    function groupByReg($month, $year)
+    {
+        if(!$month || !$year){
+            $month = date('m');
+            $year = date('Y');
+        }
+        $data = DB::connection('mysql2')
+        ->table('pins_ticket_closed')
+        ->select('area',DB::raw('count(noticket) as total'))
+        // ->whereRaw('(TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?', [$month, $year])
+        ->whereMonth('opentiket',$month)
+        ->whereYear('opentiket',$year)
+        ->groupBy('area')
+        ->get();
+        return $data;
+    }
 
     function getDataById($id)
     {

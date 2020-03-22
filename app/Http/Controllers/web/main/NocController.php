@@ -83,6 +83,17 @@ class NocController extends \App\Http\Controllers\Controller
         return response()->json($data);
     }
 
+    public function dataGropingByReg(Request $request)
+    {
+        $data = $this
+                ->model
+                ->groupByReg(
+                    $request->input('month'),
+                    $request->input('year'),
+                );
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
