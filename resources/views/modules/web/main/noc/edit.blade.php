@@ -39,7 +39,7 @@ Edit Ticket
                                             id="noticket"
                                             name="noticket"
                                             class="form-control parsley-error"
-                                            value="{{ old('noticket')}}"
+                                            value="{{$data->noticket}}"
                                             autofocus>
                                     @if ($errors->has('noticket'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('noticket')}}</span>
@@ -55,7 +55,7 @@ Edit Ticket
                                             id="customer"
                                             name="customer"
                                             class="form-control parsley-error"
-                                            value="{{ old('customer')}}">
+                                            value="{{ $data->customer }}">
                                     @if ($errors->has('customer'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('customer')}}</span>
                                     @endif
@@ -67,7 +67,7 @@ Edit Ticket
                                     <select name="layanan" class="select2" id="layanan">
                                         @foreach ($layanan as $item)
                                         <option value="{{ $item->layanan }}"
-                                            {{  (old('layanan') == $item->layanan) ? 'selected' : ''}}>
+                                            {{  ($data->layanan == $item->layanan) ? 'selected disabled' : ''}}>
                                             {{ $item->layanan }}
                                         </option>
                                         @endforeach
@@ -85,7 +85,7 @@ Edit Ticket
                                             id="segment">
                                         @foreach ($segment as $item)
                                         <option value="{{ $item->segment }}"
-                                            {{  (old('segment') == $item->segment) ? 'selected' : ''}}>
+                                            {{  ($data->segment == $item->segment) ? 'selected disabled' : ''}}>
                                             {{ $item->segment }}
                                         </option>
                                         @endforeach
@@ -101,7 +101,7 @@ Edit Ticket
                                     <textarea   name="headline"
                                                 id="headline"
                                                 class="form-control"
-                                                placeholder="[MONITORING GANTI IP WAN][ROUTER CE RUSAK][NMS][PINS] 4700063-0029766096 VPNIP ">{{ old('headline')}}</textarea>
+                                                >{{ $data->headline}}</textarea>
                                     @if ($errors->has('headline'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('headline')}}</span>
                                     @endif
@@ -113,7 +113,7 @@ Edit Ticket
                                     <textarea   name="description"
                                                 id="description"
                                                 class="form-control"
-                                                placeholder="[NE+ DOWN@TGR280] NE+ DOWN@TGR280:int_inm:###TGR280">{{ old('description')}}</textarea>
+                                                >{{ $data->description}}</textarea>
                                     @if ($errors->has('description'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('description')}}</span>
                                     @endif
@@ -128,7 +128,7 @@ Edit Ticket
                                             data-placeholder="Pilih Area">
                                         @foreach ($area as $item)
                                         <option value="{{ $item->area }}"
-                                            {{  (old('area') == $item->area) ? 'selected' : ''}}>{{ $item->area }}
+                                            {{  ($data->area == $item->area) ? 'selected disabled' : ''}}>{{ $item->area }}
                                         </option>
                                         @endforeach
                                     </select>
@@ -142,7 +142,7 @@ Edit Ticket
                                             parsley-trigger="change" id="status"
                                             name="status"
                                             class="form-control parsley-error"
-                                            value="{{ old('status')}}">
+                                            value="{{ $data->status}}">
                                     @if ($errors->has('status'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('status')}}</span>
                                     @endif
@@ -157,7 +157,7 @@ Edit Ticket
                                             id="statusdate"
                                             name="statusdate"
                                             class="form-control datetime parsley-error"
-                                            value="{{ old('statusdate')}}">
+                                            value="{{ $data->statusdate}}">
                                     @if ($errors->has('statusdate'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('statusdate')}}</span>
                                     @endif
@@ -172,7 +172,7 @@ Edit Ticket
                                             id="opentiket"
                                             name="opentiket"
                                             class="form-control datetimepicker parsley-error"
-                                        value="{{ old('opentiket')}}" readonly>
+                                        value="{{ $data->opentiket}}" readonly>
                                     @if ($errors->has('opentiket'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('opentiket')}}</span>
                                     @endif
@@ -187,7 +187,7 @@ Edit Ticket
                                             name="respondtiket"
                                             class="form-control datetimepicker parsley-error"
                                             readonly
-                                            value="{{ old('respondtiket')}}">
+                                            value="{{ $data->respondtiket}}">
                                     @if ($errors->has('respondtiket'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('respondtiket')}}</span>
                                     @endif
@@ -201,7 +201,7 @@ Edit Ticket
                                             id="durasipending"
                                             name="durasipending"
                                             class="form-control timepicker parsley-error"
-                                            value="{{ old('durasipending')}}">
+                                            value="{{ $data->durasipending}}">
                                     @if ($errors->has('durasipending'))
                                     <span
                                         class="invalid-feedback text-danger">{{$errors->first('durasipending')}}</span>
@@ -216,7 +216,7 @@ Edit Ticket
                                             id="resolvedtiket"
                                             name="resolvedtiket"
                                             class="form-control datetimepicker parsley-error"
-                                            value="{{ old('resolvedtiket')}}"
+                                            value="{{ $data->resolvedtiket}}"
                                             readonly>
                                     @if ($errors->has('resolvedtiket'))
                                     <span
@@ -232,7 +232,7 @@ Edit Ticket
                                             id="closedtiket"
                                             name="closedtiket"
                                             class="form-control datetimepicker parsley-error"
-                                            value="{{ old('closedtiket')}}" readonly>
+                                            value="{{ $data->closedtiket}}" readonly>
                                     @if ($errors->has('closedtiket'))
                                     <span class="invalid-feedback text-danger">{{$errors->first('closedtiket')}}</span>
                                     @endif
@@ -244,7 +244,7 @@ Edit Ticket
                                     <textarea   name="resolveddescription"
                                                 id="resolveddescription"
                                                 class="form-control"
-                                                placeholder="RCA TELKOMSEL - CME - POWER">{{ old('resolveddescription')}}</textarea>
+                                                >{{ $data->resolveddescription}}</textarea>
                                     @if ($errors->has('resolveddescription'))
                                     <span
                                         class="invalid-feedback text-danger">{{$errors->first('resolveddescription')}}</span>
@@ -280,7 +280,7 @@ Edit Ticket
 <script src="{{ asset('assets/js/app-form-elements.js')}}" type="text/javascript"></script>
 <script type="text/javascript">
     $('#submit').on('click', function () {
-        $('form').attr('action', '/noc/store');
+        $('form').attr('action', '/noc/update/{{$data->id}}');
     });
     $(document).ready(function () {
         //initialize the javascript

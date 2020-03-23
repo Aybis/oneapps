@@ -62,7 +62,33 @@ class NocTicket extends Model
         ->get();
         return ['met'=>$met, 'miss'=>$miss];
     }
-    function groupByReg($month, $year)
+
+    function groupByReg($month, $year, $condition)
+    {
+        if(!$month || !$year){
+            $month = date('m');
+            $year = date('Y');
+        }
+        if($condition == 'met'){
+            $clause = 'noticket LIKE "%REQ%" AND (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4 ';
+        }else if($condition == 'miss'){
+            $clause = 'noticket LIKE "%REQ%" AND (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) > 4 ';
+        }else if(!$condition){
+            $clause = 'noticket LIKE "%REQ%"';
+        }
+
+        $data = DB::connection('mysql2')
+        ->table('pins_ticket_closed')
+        ->select('area',DB::raw('count(noticket) as total'))
+        ->whereRaw($clause)
+        ->whereMonth('opentiket',$month)
+        ->whereYear('opentiket',$year)
+        ->groupBy('area')
+        ->get();
+        return $data;
+    }
+
+    function groupByRegMiss($month, $year)
     {
         if(!$month || !$year){
             $month = date('m');
@@ -71,7 +97,7 @@ class NocTicket extends Model
         $data = DB::connection('mysql2')
         ->table('pins_ticket_closed')
         ->select('area',DB::raw('count(noticket) as total'))
-        // ->whereRaw('(TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?', [$month, $year])
+        ->whereRaw('(TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) > 4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?', [$month, $year])
         ->whereMonth('opentiket',$month)
         ->whereYear('opentiket',$year)
         ->groupBy('area')
@@ -91,6 +117,14 @@ class NocTicket extends Model
             ['noticket' => $noticket],
             $data
         );
+        return $query;
+    }
+
+    function updateData($id, $data)
+    {
+        // $query = NocTicket::where('id', $id)->update($data);
+        $query = DB::connection('mysql2')->table('pins_ticket_closed')->where('id', $id)->update($data);
+        return $query;
     }
 
     function getSegmentByGroup()

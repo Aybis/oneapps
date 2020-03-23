@@ -8,7 +8,7 @@ function chartReg(value) {
     // Create chart MET
     let chart = am4core.create("chartReg", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-    console.log(value);
+
     chart.data = value;
 
     let series = chart.series.push(new am4charts.PieSeries());

@@ -67,7 +67,14 @@ class NocController extends \App\Http\Controllers\Controller
         $data = $this->model->getDataAll(
             $request->input('month'),
             $request->input('year'));
-        return DataTables()->of($data)
+            return DataTables()->of($data)
+            ->addColumn('edit', function($data){
+                $edit =array(
+                    "id" => $data->id,
+                    "noticket" => $data->noticket,
+                );
+                return  $edit;
+            })
             ->addIndexColumn()
             ->make(true);
     }
@@ -85,12 +92,13 @@ class NocController extends \App\Http\Controllers\Controller
 
     public function dataGropingByReg(Request $request)
     {
-        $data = $this
-                ->model
-                ->groupByReg(
-                    $request->input('month'),
-                    $request->input('year'),
-                );
+            $data = $this
+            ->model
+            ->groupByReg(
+                $request->input('month'),
+                $request->input('year'),
+                $request->input('condition'),
+            );
         return response()->json($data);
     }
 
@@ -105,12 +113,24 @@ class NocController extends \App\Http\Controllers\Controller
             'resolveddescription' => 'required'
         ])->validate();
 
+
         // Declare Variable
         $data = [];
         $data = $request->except('_token','durasipending');
         $data['durasipending'] = str_replace(':','.',$request->durasipending);
         $query = $this->model->insertOrUpdate($request->noticket, $data);
-        dd($query);
+
+        return redirect('/noc/dashboard')->with('message','Data has been insert successfully');
+
+    }
+
+    public function update(Request $request,$id)
+    {
+        $data = [];
+        $data = $request->except('_token','durasipending');
+        // $data['durasipending'] = str_replace(':','.',$request->durasipending);
+        $query = $this->model->updateData($id, $data);
+        return redirect('/noc/dashboard')->with('message','Data has been insert successfully');
 
     }
 }

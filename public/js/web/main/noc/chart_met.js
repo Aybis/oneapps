@@ -9,7 +9,8 @@ function chartMet(value) {
     let chart = am4core.create("chartmet", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-    chart.data = [{
+    chart.data = [
+        {
             area: "MET",
             value: value.met[0]['met'],
         },

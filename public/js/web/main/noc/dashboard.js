@@ -61,6 +61,15 @@ $('#tahun').change(function () {
     }
 });
 
+// Funtion radio button
+$('.condition').on('click', function(){
+    let condition = $(this).val();
+    monthAndYear(getMonth+1, d.getFullYear(), _token, condition);
+
+});
+
+
+
 // Function ServerSide DataTable
 function listDataDashboard(m, y, _token) {
     $('.panel-body').removeClass('fix')
@@ -115,7 +124,25 @@ function listDataDashboard(m, y, _token) {
             }, {
                 data: 'status',
                 defaultContent: "",
-            }
+            }, {
+                data: 'edit',
+                'defaultContent': "",
+                render(data) {
+                    return (
+                        `
+                        <div class="btn-group btn-hspace">
+                                  <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Action <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+                                  <ul role="menu" class="dropdown-menu pull-right">
+                                  <li><a href="/noc/edit/${data.id}/" data-id="${data.id}""><span class="icon mdi mdi-assignment"></span>Edit</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/noc/delete/${data.id}"  data-id="${data.id}"><span class="icon mdi mdi-delete"></span>Delete</a></li>
+
+                                  </ul>
+                                </div>
+                        `
+                        )
+                    }
+                }
         ],
     });
     // $('table tbody').addClass('animated fadeIn delay-1s');

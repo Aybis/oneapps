@@ -1,5 +1,5 @@
 
-function monthAndYear(m='', y='', _token)
+function monthAndYear(m='', y='', _token, condition='')
 {
     $.ajaxSetup({
         cache:false,
@@ -28,6 +28,7 @@ function monthAndYear(m='', y='', _token)
             _token : _token,
             month : m,
             year : y,
+            condition : condition,
         },
         dataType : 'json',
         success : function(data){

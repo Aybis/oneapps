@@ -30,7 +30,11 @@ Dashboard NOC
 
 @section('content')
 <div class="page-head animated fadeInUp">
-
+    @if (\Session::has('message'))
+    <div class="alert alert-success">
+        <p>{{ \Session::get('message') }}</p>
+    </div><br />
+    @endif
     <div style="text-align:-webkit-center">
 
         <select name="bulan" id="bulan" class="form-group" style="width:20%;height:34px">
@@ -77,12 +81,12 @@ Dashboard NOC
                 <div class="title">Data By Area
                     <div id="status" style="text-align:-webkit-center">
                         <div class="be-radio be-radio-color inline">
-                            <input type="radio" checked="" name="rad4" id="rad9">
+                            <input type="radio"  class="condition" value="miss" name="rad4" id="rad9">
                             <label for="rad9">MISS </label>
                           </div>
                           <div class="be-radio be-radio-color inline">
-                            <input type="radio" checked="" name="rad4" id="rad9">
-                            <label for="rad9">MET</label>
+                            <input type="radio" name="rad4" class="condition" value="met" id="rad10">
+                            <label for="rad10">MET</label>
                           </div>
                       </div>
                 </div>
@@ -126,7 +130,8 @@ Dashboard NOC
                             <th>Durasi Pending</th>
                             <th>Resolved Ticket</th>
                             <th>Close Ticket</th>
-                            <th style="text-align:center"> Status</th>
+                            <th> Status</th>
+                            <th style="text-align:center"> Action</th>
                         </tr>
                     </thead>
                 </table>
