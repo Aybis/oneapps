@@ -10,8 +10,10 @@ use Symfony\Component\Console\Input\Input;
 class NocTicket extends Model
 {
 
-    protected $connection = 'mysql2';
-    protected $table = 'pins_ticket_closed';
+    protected $connection   = 'mysql2';
+    protected $table        = 'pins_ticket_closed';
+    protected $guarded      = [];
+    public $timestamps      = false;
 
     function scopeMet($month, $year)
     {
@@ -29,7 +31,6 @@ class NocTicket extends Model
             $month = date('m');
             $year = date('Y');
         }
-        // $query = DB::connection('mysql2')->select("SELECT noticket,opentiket, resolvedtiket, TIMESTAMPDIFF(HOUR,opentiket,resolvedtiket) as TIME,durasipending, (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending)as hsil, description   FROM pins_ticket_closed WHERE (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) >24 ");
         $query = DB::connection('mysql2')->select("SELECT count(noticket) as miss, segment FROM pins_ticket_closed WHERE (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) >4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?  GROUP BY segment", [$month, $year]);
         return $query;
     }
@@ -40,8 +41,17 @@ class NocTicket extends Model
             $month = date('m');
             $year = date('Y');
         }
-        $query = DB::connection('mysql2')->table('pins_ticket_closed')->whereMonth('opentiket',$month)->whereYear('opentiket',$year)->orderBy('opentiket','desc')->get();
-        return $query;
+        $data = NocTicket::select('*',
+                    DB::raw('( CASE
+                            WHEN (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) > 4  THEN "MISS"
+                            WHEN (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4  THEN "MET"
+                            END) AS timeStatus'
+                            )
+                        )
+                ->whereMonth('opentiket',$month)
+                ->whereYear('opentiket',$year)
+                ->orderBy('opentiket','desc');
+        return $data;
     }
 
     function scopeChart($month, $year)
@@ -50,10 +60,11 @@ class NocTicket extends Model
             $month = date('m');
             $year = date('Y');
         }
-        $met = DB::connection('mysql2')
-        ->table('pins_ticket_closed')
-        ->select(DB::raw('count(noticket) as met'))
-        ->whereRaw('(TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?', [$month, $year])
+        $met = NocTicket::select(DB::raw('count(noticket) as met'))
+        ->whereRaw('
+            (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4 AND MONTH(opentiket) = ? AND YEAR(opentiket)= ?',
+            [$month, $year]
+        )
         ->get();
         $miss = DB::connection('mysql2')
         ->table('pins_ticket_closed')
@@ -77,9 +88,7 @@ class NocTicket extends Model
             $clause = 'noticket LIKE "%REQ%"';
         }
 
-        $data = DB::connection('mysql2')
-        ->table('pins_ticket_closed')
-        ->select('area',DB::raw('count(noticket) as total'))
+        $data = NocTicket::select('area',DB::raw('count(noticket) as total'))
         ->whereRaw($clause)
         ->whereMonth('opentiket',$month)
         ->whereYear('opentiket',$year)
@@ -143,6 +152,84 @@ class NocTicket extends Model
     {
         $query = NocTicket::select('area')->groupBy('area')->get();
         return $query;
+    }
+
+    function getCustomerByGroup()
+    {
+        $data   = NocTicket::select('customer')->groupBy('customer')->orderBy('customer','asc')->get()->pluck('customer');
+        return $data;
+    }
+
+    function scopeDataIncident($month, $year)
+    {
+        if(!$month || !$year){
+            $month  = date('m');
+            $year   = date('Y');
+        }
+
+        $data   = NocTicket::select('*',
+                    DB::raw('( CASE
+                            WHEN (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) > 4  THEN "MISS"
+                            WHEN (TIMESTAMPDIFF(HOUR,opentiket, resolvedtiket) - durasipending) < 4  THEN "MET"
+                            END) AS timeStatus'
+                            )
+                        )
+                ->where('noticket', 'like', 'IN%')
+                ->whereMonth('opentiket', $month)
+                ->whereYear('opentiket',$year)
+                ->orderBy('opentiket','desc');
+
+        return $data;
+    }
+
+    function scopeDataRequest($month, $year)
+    {
+        if(!$month || !$year){
+            $month  = date('m');
+            $year   = date('Y');
+        }
+
+        $data   = NocTicket::select('customer', DB::raw("count('noticket') as total"))
+                ->where('noticket', 'like', 'REQ%')
+                ->whereMonth('opentiket', $month)
+                ->whereYear('opentiket',$year)
+                ->groupBy('customer');
+        return $data;
+    }
+
+    function scopeDataAll($month, $year)
+    {
+        if(!$month || !$year){
+            $month  = date('m');
+            $year   = date('Y');
+        }
+
+        $data   = NocTicket::whereMonth('opentiket', $month)
+                ->whereYear('opentiket', $year)
+                ->orderBy('opentiket','desc');
+
+        return $data;
+    }
+
+    function dump()
+    {
+        $data = NocTicket::select('segment')
+                ->groupBy('segment')
+                ->get();
+        return response()->json($data, 200);
+    }
+
+
+    function importDataExcel($data, $path)
+    {
+        if(!empty($data) && $data->count()){
+            foreach($data as $key => $val){
+                $model  = new NocTicket();
+                $model->noticket    = $val->noticket;
+                $model->customer    = $val->customer;
+                dd($model);
+            }
+        }
     }
 
 }
