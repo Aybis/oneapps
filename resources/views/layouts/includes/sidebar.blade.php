@@ -17,7 +17,7 @@
 
                         </ul>
                     </li>
-                    <li class="parent"><a href="#"><i class="icon mdi mdi-layers"></i><span>LISTRIK</span></a>
+                    <li class="parent" hidden><a href="#"><i class="icon mdi mdi-layers"></i><span>LISTRIK</span></a>
                         <ul class="sub-menu">
                             <li><a href="/listrik/form">Create</a>
                             </li>
@@ -26,8 +26,8 @@
                         </ul>
                     </li>
 
-                    <li class="divider">Master Data</li>
-                    <li class="parent">
+                    <li class="divider" hidden>Master Data</li>
+                    <li class="parent" hidden>
                         <a href="#"><i class="icon mdi mdi-face"></i><span>Users</span></a>
                         <ul class="sub-menu">
                             <li>
@@ -35,7 +35,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="parent">
+                    <li class="parent" hidden>
                         <a href="#"><i class="icon mdi mdi-assignment-account"></i><span>Permission</span></a>
                         <ul class="sub-menu">
                             <li>
@@ -43,7 +43,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="parent">
+                    <li class="parent" hidden>
                         <a href="#"><i class="icon mdi mdi-assignment-account"></i><span>Menu</span></a>
                         <ul class="sub-menu">
                             <li>
@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    <div class="progress-widget">
+    <div class="progress-widget" hidden>
         <div class="progress-data"><span class="progress-value">10%</span><span class="name">Current
             Project</span></div>
             <div class="progress">
