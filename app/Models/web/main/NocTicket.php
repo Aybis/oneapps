@@ -48,9 +48,11 @@ class NocTicket extends Model
                             END) AS timeStatus'
                             )
                         )
-                ->whereMonth('opentiket',$month)
-                ->whereYear('opentiket',$year)
                 ->orderBy('opentiket','desc');
+        if($month != 13){
+            $data->whereMonth('opentiket', $month)
+            ->whereYear('opentiket',$year);
+        }
         return $data;
     }
 
@@ -160,7 +162,7 @@ class NocTicket extends Model
         return $data;
     }
 
-    function scopeDataIncident($month, $year)
+    function scopeDataIncident($month, $year, $customer)
     {
         if(!$month || !$year){
             $month  = date('m');
@@ -175,9 +177,16 @@ class NocTicket extends Model
                             )
                         )
                 ->where('noticket', 'like', 'IN%')
-                ->whereMonth('opentiket', $month)
-                ->whereYear('opentiket',$year)
                 ->orderBy('opentiket','desc');
+
+        if($month != 13){
+            $data->whereMonth('opentiket', $month)
+            ->whereYear('opentiket',$year);
+        }
+
+        if($customer != "all"){
+            $data->where('customer', $customer);
+        }
 
         return $data;
     }
@@ -191,9 +200,11 @@ class NocTicket extends Model
 
         $data   = NocTicket::select('customer', DB::raw("count('noticket') as total"))
                 ->where('noticket', 'like', 'REQ%')
-                ->whereMonth('opentiket', $month)
-                ->whereYear('opentiket',$year)
                 ->groupBy('customer');
+        if($month != 13){
+            $data->whereMonth('opentiket', $month)
+            ->whereYear('opentiket',$year);
+        }
         return $data;
     }
 

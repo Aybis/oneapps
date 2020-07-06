@@ -1,18 +1,23 @@
 let dataIncident = [];
-function ajaxChartIncident(m, y)
+function ajaxChartIncident(m, y,customer="all")
 {
     $.ajaxSetup({
-        cache:false,
+        cache       : true,
+        destroy     : true,
+        processing  : true,
+        serverSide  : true,
+        async       : true,
     });
+
     $.ajax({
-        url:url_chart_incident,
-        type: 'get',
-        data : {
-            // _token : _token,
-            month : m,
-            year : y,
-        },
-        dataType : 'json',
+        url         : url_chart_incident,
+        type        : 'get',
+        data        : {
+                        month       : m,
+                        year        : y,
+                        customer    : customer,
+                    },
+        dataType    : 'json',
         success : function(data){
             // declare variable for status miss and met
             let met = 0;
@@ -32,24 +37,11 @@ function ajaxChartIncident(m, y)
 
         },
         error : function (data){
-            // console.log(data);
         }
     });
 }
 
 function chartIncident(met, miss) {
-
-    /**
-     * ---------------------------------------
-     * This demo was created using amCharts 4.
-     *
-     * For more information visit:
-     * https://www.amcharts.com/
-     *
-     * Documentation is available at:
-     * https://www.amcharts.com/docs/v4/
-     * ---------------------------------------
-     */
 
     // Themes begin
     am4core.useTheme(am4themes_animated);

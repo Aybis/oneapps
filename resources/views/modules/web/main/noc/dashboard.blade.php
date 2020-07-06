@@ -50,13 +50,20 @@ Dashboard NOC
         </ul>
     </div>
     @endif
+    @if ($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>{{ $message }}</strong>
+      </div>
+    @endif
     <div style="text-align:-webkit-center">
-        <select name="bulan" id="bulan" class="form-group" style="width:20%;height:34px">
+        <select name="bulan" id="bulan" class="bulan form-group" style="width:20%;height:34px">
         </select>
-        <select name="tahun" id="tahun" class="form-group" style="width:20%;height:34px">
+        <select name="tahun" id="tahun" class="tahun form-group" style="width:20%;height:34px">
         </select>
         <input type="hidden" id="url_chart_request" data-url="{{ url('/noc/api/request') }}"">
         <input type="hidden" id="url_chart_incident" data-url="{{ url('/noc/api/incident') }}">
+        <input type="hidden" id="url_export" data-url="{{ url('/noc/export') }}">
     </div>
 </div>
 
@@ -72,10 +79,10 @@ Dashboard NOC
                 </div>
                 <div class="title"> Incident Management
                     <div id="status" style="margin-top: 20px;text-align:-webkit-center" >
-                        <select name="customer" id="" class="select2 select2-sm">
+                        <select name="customer" id="customer" class="select2 select2-sm">
                             <option value="all">All</option>
                             @foreach ($customer as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
+                                <option value="{{ $item }}">{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -134,10 +141,13 @@ Dashboard NOC
                         </a>
                         <ul class="dropdown-menu pull-right">
                             <li>
-                                <a data-modal="form-success" class="btn btn-space md-trigger">Import File</a>
+                                <a data-modal="form-upload" class="btn btn-space md-trigger">Import File</a>
                             </li>
                             <li>
-                                <a href="#" class="btn ">Download</a>
+                                <a data-modal="form-download" class="btn btn-space md-trigger">Download File</a>
+                            </li>
+                            <li>
+                                <a href="{{ asset('storage/format_upload.xls') }}" class="btn btn-space md-trigger">Download Format</a>
                             </li>
                         </ul>
                     </div>
@@ -178,6 +188,7 @@ Dashboard NOC
 
 
 @include('modules.web.main.noc.incl.modal_upload_excel')
+@include('modules.web.main.noc.incl.modal_download_excel')
 @endsection
 
 @section('external_js')
@@ -189,7 +200,6 @@ Dashboard NOC
 <script src="{{ asset('assets/lib/select2/js/select2.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('assets/lib/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
 <!-- Nifty Modal -->
-{{-- <script src="{{ asset('assets/lib/bootstrap/dist/js/bootstrap.min.js')}}"></script> --}}
 <script src="{{ asset('assets/lib/jquery.niftymodals/dist/jquery.niftymodals.js') }}" type="text/javascript"></script>
 <!-- External -->
 <script src="{{ asset('js/web/main/noc/dashboard.js')}}"></script>

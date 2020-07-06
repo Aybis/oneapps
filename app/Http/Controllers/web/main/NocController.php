@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web\main;
 
+use App\Exports\NocTicketExport;
 use App\Imports\NocTicketImport;
 use App\Models\web\main\NocTicket;
 use Carbon\Carbon;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
-
+use PhpOffice\PhpSpreadsheet\Reader\Xls\RC4;
 
 class NocController extends \App\Http\Controllers\Controller
 {
@@ -90,7 +91,7 @@ class NocController extends \App\Http\Controllers\Controller
 
     public function getDataIncident(Request $request)
     {
-        $data   = $this->model->scopeDataIncident($request->month, $request->year)->get();
+        $data   = $this->model->scopeDataIncident($request->month, $request->year, $request->customer)->get();
         return response()->json($data, 200);
     }
 
@@ -144,8 +145,13 @@ class NocController extends \App\Http\Controllers\Controller
         if($request->hasFile('file')){
             $data   = Excel::import(new NocTicketImport, $request->file('file'));
             // $data = (new NocTicketImport)->import($path, null, \Maatwebsite\Excel\Excel::XLS);
-            dd($data);
         }
+        return redirect()->back()->with(['success' => 'Upload Berhasil']);
+    }
+
+    public function exportDataExcel(Request $request)
+    {
+        return (new NocTicketExport($request->bulan, $request->tahun, $request->customer))->download('Ticketing '.date('L, F-Y').'.xls');
     }
 
     public function getDataDump()

@@ -7,12 +7,13 @@ $router->group([
     'prefix'     => '/noc'
 ], function () use ($router) {
     // CRUD
-    Route::get('/dashboard','web\main\NocController@dashboard');
+    Route::get('/dashboard','web\main\NocController@dashboard')->name('noc-dashboard');
     Route::get('/form','web\main\NocController@formTicket');
     Route::get('/edit/{param}','web\main\NocController@editTicket');
     Route::post('/store/','web\main\NocController@store');
     Route::post('/update/{param}','web\main\NocController@update');
     Route::post('/import','web\main\NocController@importDataExcel');
+    Route::post('/export','web\main\NocController@exportDataExcel');
 
 });
 

@@ -2,7 +2,11 @@ let dataPoints = [];
 
 function ajaxChartRequest(m, y) {
     $.ajaxSetup({
-        cache: false,
+        cache       : true,
+        destroy     : true,
+        processing  : true,
+        serverSide  : true,
+        async       : true,
     });
 
     $.ajax({
@@ -14,38 +18,23 @@ function ajaxChartRequest(m, y) {
         },
         dataType: 'json',
         success: function (data) {
+            dataPoints = [];
             // declare variable for status miss and met
-            let label = [];
-            let val = [];
-
             data.forEach((element) => {
                 dataPoints.push({
                     area: element.customer,
                     value: element.total,
                 })
             });
-
             chartRequest();
         },
         error: function (data) {
-            // console.log(data);
         }
     });
 }
 
 function chartRequest() {
-    /**
-     * ---------------------------------------
-     * This demo was created using amCharts 4.
-     *
-     * For more information visit:
-     * https://www.amcharts.com/
-     *
-     * Documentation is available at:
-     * https://www.amcharts.com/docs/v4/
-     * ---------------------------------------
-     */
-
+    am4core.disposeAllCharts();
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end

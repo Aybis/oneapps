@@ -4,7 +4,7 @@
             <div class="left-sidebar-content">
                 <ul class="sidebar-elements">
                     <li class="divider">Menu</li>
-                    <li><a href="/"><i class="icon mdi mdi-home"></i><span>HOME</span></a>
+                    <li hidden><a href="/"><i class="icon mdi mdi-home"></i><span>HOME</span></a>
                     </li>
                     <li class="parent"><a href="#"><i class="icon mdi mdi-layers"></i><span>NOC</span></a>
                         <ul class="sub-menu">

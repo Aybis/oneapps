@@ -2,9 +2,11 @@
 let url_table           = $('#all').attr('url');
 let url_chart_incident  = $('#url_chart_incident').data('url');
 let url_chart_request   = $('#url_chart_request').data('url');
+let url_export          = $('#url_export').data('url');
 let _token              = $('#token').val();
-let bulan               = $('#bulan');
-let tahun               = $('#tahun');
+let bulan               = $('.bulan');
+let tahun               = $('.tahun');
+let cust                = $('#customer').val();
 let d                   = new Date();
 var getMonth            = d.getMonth();
 let minTahun            = (d.getFullYear() - 5);
@@ -16,8 +18,8 @@ setTimeout(function () {
     toggleLoaderTable();
     ajaxChartIncident(getMonth+1, d.getFullYear());
     ajaxChartRequest(getMonth+1, d.getFullYear());
-    listDataDashboard(getMonth+1, d.getFullYear(), _token);
-}, 1200);
+    listDataDashboard(getMonth+1, d.getFullYear());
+}, 1000);
 
 
 // Declare Array Bulan
@@ -33,7 +35,8 @@ const months = [
     'September',
     'Oktober',
     'November',
-    'Desember'
+    'Desember',
+    'All'
 ];
 
 // Insert Value Option Dropdown Bulan
@@ -50,13 +53,14 @@ for (let i = d.getFullYear(); i > minTahun; i--) {
 }
 
 // OnClick Month Function
-$('#bulan').change(function () {
-    let m = $('#bulan').val();
-    let y = $('#tahun').val();
+$('.bulan').change(function () {
+    let m = $('.bulan').val();
+    let y = $('.tahun').val();
+    let cust = $('#customer').val();
     if (m != '' && y != '') {
-        ajaxChartIncident(m, y);
+        ajaxChartIncident(m, y, cust);
         ajaxChartRequest(m, y);
-        listDataDashboard(m, y, _token);
+        listDataDashboard(m, y);
 
     } else {
         alert('Both Date is required');
@@ -64,33 +68,24 @@ $('#bulan').change(function () {
 });
 
 // OnClick Year Function
-$('#tahun').change(function () {
-    let m   = $('#bulan').val();
-    let y   = $('#tahun').val();
+$('.tahun').change(function () {
+    let m   = $('.bulan').val();
+    let y   = $('.tahun').val();
+    let cust = $('#customer').val();
     if (m != '' && y != '') {
-        ajaxChartIncident(m, y);
+        ajaxChartIncident(m, y, cust);
         ajaxChartRequest(m, y);
-        listDataDashboard(m, y, _token);
+        listDataDashboard(m, y);
 
     } else {
         alert('Both Date is required');
     }
 });
 
-// Funtion radio button
-$('.condition').on('click', function(){
-    let condition = $(this).val();
-    monthAndYear(getMonth+1, d.getFullYear(), _token, condition);
-
-});
 
 // niftyModal
 $.fn.niftyModal('setDefaults', {
-    overlaySelector: '.modal-overlay',
-    closeSelector: '.modal-close',
-    classAddAfterOpen: 'modal-show',
-
-      overlaySelector     : '.modal-overlay',
+    overlaySelector     : '.modal-overlay',
     contentSelector     : '.modal-content',
     closeSelector       : '.modal-close',
     classAddAfterOpen   : 'modal-show'
@@ -101,18 +96,28 @@ $(".select2").select2({
     //   width: '100%'
 });
 
+$('#customer').on('change', function(){
+    let m   = $('.bulan').val();
+    let y   = $('.tahun').val();
+    let cust = $(this).val();
+    if (m != '' && y != '') {
+        ajaxChartIncident(m, y, cust);
+    }
+})
+
+
 //Show loading class toggle
 function toggleLoaderIncident(){
 
-
     $('#toggle-incident').on('click',function(){
     var parent = $(this).parents('.widget, .panel');
-    let m   = $('#bulan').val();
-    let y   = $('#tahun').val();
+    let m   = $('.bulan').val();
+    let y   = $('.tahun').val();
+    let cust = $('#customer').val();
     if( parent.length ){
             parent.addClass('be-loading-active');
         setTimeout(function () {
-            ajaxChartIncident(m, y);
+            ajaxChartIncident(m, y, cust);
             parent.removeClass('be-loading-active');
         }, 2000);
     }
@@ -124,8 +129,8 @@ function toggleLoaderRequest(){
 
     $('#toggle-request').on('click',function(){
     var parent = $(this).parents('.widget, .panel');
-    let m   = $('#bulan').val();
-    let y   = $('#tahun').val();
+    let m   = $('.bulan').val();
+    let y   = $('.tahun').val();
 
     if( parent.length ){
             parent.addClass('be-loading-active');
@@ -142,8 +147,8 @@ function toggleLoaderTable(){
 
     $('#toggle-table').on('click',function(){
     var parent = $(this).parents('.widget, .panel');
-    let m   = $('#bulan').val();
-    let y   = $('#tahun').val();
+    let m   = $('.bulan').val();
+    let y   = $('.tahun').val();
 
     if( parent.length ){
             parent.addClass('be-loading-active');
@@ -156,7 +161,7 @@ function toggleLoaderTable(){
 }
 
 // Function ServerSide DataTable
-function listDataDashboard(m, y, _token) {
+function listDataDashboard(m, y) {
     $('.panel-body').removeClass('fix')
     $('.panel-body').addClass('trans');
 
@@ -170,7 +175,6 @@ function listDataDashboard(m, y, _token) {
             url: url_table,
             type: 'get',
             data: {
-                _token: _token,
                 month: m,
                 year: y,
             },
